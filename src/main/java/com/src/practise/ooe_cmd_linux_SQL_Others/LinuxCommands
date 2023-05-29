@@ -1,0 +1,40 @@
+nohup后台挂起运行
+  nohup java -jar xxx.jar --server.port =8080 &
+
+输出nohup最近2000条日志
+  tail -f nohup.out
+
+查看进程
+  ps -aux|grep xxx.jar
+  ps -ef|grep java
+
+杀死进程
+  kill -9 7887
+
+nginx停止与重新部署
+  pkill -9 nginx
+编译
+  make
+编译后移动至执行目录
+  make install
+ngin启动
+  /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+
+查看MySQL相关目录
+  whereis mysql
+whereis命令主要查询程序文件,可使用-b选项让whereis命令之查找这个程序的二进制可执行文件
+例如：
+  whereis find
+  whereis -b find
+
+为sh命令添加执行权力
+  chmod +x *.sh
+
+启动/停止/重启mysql
+  systemctl start/stop/restart mysqld.service
+
+
+linux以及win下MySQL数据库数据所在目录
+  /var/lib/mysql
+  C:\ProgramData\MySQL\MySQL Server 5.7
+

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--1、对于基于 XML 的配置，Spring 2.0 以后使用 Schema 的格式，
+使得不同类型的配置拥有了自己的命名空间，使得配置文件更具扩展性。-->
+<!--2、xmlns="http://www.springframework.org/schema/beans"，
+默认命名空间：它没有空间名，用于Spring Bean的定义-->
+<!--3、xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"，
+xsi命名空间：这个命名空间用于为每个文档中命名空间指定相应的Schema样式文件，
+是标准组织定义的标准命名空间。-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--1、Beans.xml给不同的bean分配唯一ID-->
+    <!--2、控制不同对象创建，不能影响spring任何源文件-->
+    <!--3、例如可以为“message”变量传递任何值，于是可以输出信息的不通知
+    并且不会影响SpringHelloWorld.java以及MainApp.java文件-->
+    <bean id="helloWorld" class="com.src.practise.ooc_spring.HelloWorld">
+        <property name="message" value="Hello World!"/>
+    </bean>
+    <!---->
+    <bean id="beanFactoryHelloWorld" class="com.src.practise.ooc_spring.HelloWorld">
+        <property name="message" value="Bean Factory Hello World!"/>
+    </bean>
+    <bean id="applicationContextHelloWorld" class="com.src.practise.ooc_spring.HelloWorld">
+        <property name="message" value="Application Context Hello World!"/>
+    </bean>
+    <!--bean作用域-->
+    <bean id="singletonScope" class="com.src.practise.ooc_spring.HelloWorld" scope="singleton">
+    </bean>
+    <bean id="prototypeScope" class="com.src.practise.ooc_spring.HelloWorld" scope="prototype">
+    </bean>
+    <!--bean生命周期-->
+    <bean id="lifeCycle" class="com.src.practise.ooc_spring.ooa_ioc.ooe_life_cycle.LifeCycleBean" init-method="init"
+          destroy-method="beanDestroy">
+    </bean>
+
+    <!--bean后置处理器-->
+    <bean class="com.src.practise.ooc_spring.ooa_ioc.oof_post_processor.HelloWorldBeanPostProcessor"/>
+
+    <!--bean的继承-->
+    <bean id="beanExtend" class="com.src.practise.ooc_spring.ooa_ioc.oog_bean_extend.HelloWorld">
+        <property name="message1" value="Hello World"/>
+        <property name="message2" value="Hello Second World"/>
+    </bean>
+
+    <bean id="helloIndia" class="com.src.practise.ooc_spring.ooa_ioc.oog_bean_extend.HelloIndia" parent="beanTemplate">
+        <property name="message1" value="hello india"/>
+        <!--引号没有补全，也会提示属性值没有关闭-->
+        <property name="message3" value="hello second india"/>
+    </bean>
+
+    <!--bean定义模板-->
+    <!--定义类的模板时，不应该指定类的属性，而应该指定属性值为true的抽象属性-->
+    <!--bean模板不能被实例化，因为它是不完整的，而且它也被明确表示是抽象的-->
+    <!--仅作为一个纯粹的模板bean定义来使用，充当子定义的父定义-->
+    <bean id="beanTemplate" abstract="true">
+        <property name="message1" value="hello india"/>
+        <property name="message2" value="hello india2"/>
+        <property name="message3" value="hello second india"/>
+    </bean>
+
+    <!--基于构造方法的DI-->
+
+    <!--参数为基本数据类型-->
+
+    <!--根据name属性找到参数列表中对应参数-->
+    <bean id="student" class="com.src.practise.ooc_spring.oob_di.ooa_based_on_constructor.Student">
+        <constructor-arg name="name" value="曹建邦"></constructor-arg>
+        <constructor-arg name="age" value="28"></constructor-arg>
+    </bean>
+
+    <!--根据index属性找到参数列表中对应参数-->
+    <bean id="student1" class="com.src.practise.ooc_spring.oob_di.ooa_based_on_constructor.Student">
+        <constructor-arg index="0" value="根据index传递参数"></constructor-arg>
+        <constructor-arg index="1" value="28"></constructor-arg>
+    </bean>
+
+    <!--根据type属性找到参数列表中对应参数-->
+    <bean id="student2" class="com.src.practise.ooc_spring.oob_di.ooa_based_on_constructor.Student">
+        <constructor-arg type="java.lang.String" value="根据type属性传递参数"></constructor-arg>
+        <constructor-arg type="int" value="28"></constructor-arg>
+    </bean>
+
+    <!--参数为非基本数据类型-->
+    <!--通过ref属性传递另一个bean标签的id或者name属性的属性值-->
+    <bean id="textEditor" class="com.src.practise.ooc_spring.oob_di.ooa_based_on_constructor.TextEditor">
+        <constructor-arg ref="spellChecker"/>
+    </bean>
+
+    <bean id="spellChecker" class="com.src.practise.ooc_spring.oob_di.ooa_based_on_constructor.SpellChecker">
+    </bean>
+
+    <!--通过setter方法传递bean-->
+    <!--如果你要把一个引用传递给一个对象，那么你需要使用 标签的 ref 属性，
+        而如果你要直接传递一个值，那么你应该使用 value 属性。-->
+    <bean id="textEditorSetter" class="com.src.practise.ooc_spring.oob_di.oob_based_on_setter.TextEditor">
+        <property name="spellChecker" ref="spellCheckerSetter"/>
+    </bean>
+
+    <bean id="spellCheckerSetter" class="com.src.practise.ooc_spring.oob_di.oob_based_on_setter.SpellChecker">
+    </bean>
+
+    <!--注入内部beans-->
+    <bean id="textEditorInnerBean" class="com.src.practise.ooc_spring.oob_di.ooc_inner_bean.TextEditor">
+        <property name="spellChecker">
+            <bean id="spellChecker" class="com.src.practise.ooc_spring.oob_di.ooc_inner_bean.SpellChecker"/>
+        </property>
+    </bean>
+
+    <!--注入集合-->
+    <bean id="javaCollection" class="com.src.practise.ooc_spring.oob_di.ood_di_collection.JavaCollection">
+        <property name="addressList">
+            <list>
+                <value>印度</value>
+                <value>巴基斯坦</value>
+                <value>以色列</value>
+                <value>美国</value>
+                <value>美国</value>
+            </list>
+        </property>
+
+        <property name="addressSet">
+            <set>
+                <value>印度</value>
+                <value>中国</value>
+                <value>巴基斯坦</value>
+                <value>巴基斯坦</value>
+            </set>
+        </property>
+
+        <property name="addressMap">
+            <map>
+                <entry key="1" value="印度"/>
+                <entry key="2" value="巴基斯坦"/>
+                <entry key="3" value="英国"/>
+                <entry key="4" value="法国"/>
+            </map>
+        </property>
+
+        <property name="addressProp">
+            <props>
+                <prop key="one">中国</prop>
+                <prop key="two">印度</prop>
+                <prop key="three">苏联</prop>
+                <prop key="four">美国</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--自动装配-->
+    <!--byName-->
+    <bean id="textEditorByName" class="com.src.practise.ooc_spring.ooc_autowire.by_name.TextEditor"
+          autowire="byName">
+        <property name="name" value="cao jian bang"/>
+    </bean>
+
+    <bean id="spellCheckerByName" class="com.src.practise.ooc_spring.ooc_autowire.by_name.SpellChecker">
+    </bean>
+
+    <!--byType-->
+    <bean id="textEditorByType" class="com.src.practise.ooc_spring.ooc_autowire.by_type.TextEditor"
+          autowire="byType">
+        <property name="name" value="cao jian bang"/>
+    </bean>
+
+    <bean id="spellCheckerByType" class="com.src.practise.ooc_spring.ooc_autowire.by_type.SpellChecker">
+    </bean>
+
+
+    <!--byConstructor-->
+    <bean id="textEditorByConstructor" class="com.src.practise.ooc_spring.ooc_autowire.by_constructor.TextEditor"
+          autowire="constructor">
+        <constructor-arg value="caojianbang"/>
+
+    </bean>
+
+    <bean id="spellCheckerByConstructor" class="com.src.practise.ooc_spring.ooc_autowire.by_constructor.SpellChecker">
+    </bean>
+
+</beans>

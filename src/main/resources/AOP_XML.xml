@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+
+
+    <aop:config>
+        <aop:aspect id="myAspect" ref="aBean">
+            <aop:pointcut id="businessService" expression="execution()"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--下面实例定义了一个名为“businessService”的切入点，该切入点与-->
+    <!--。。。包下的。。。类中。。。方法相匹配-->
+
+    <aop:config>
+        <!--声明一个切面aspect-->
+        <aop:aspect id="myAspect" ref="aBean">
+            <!--声明一个切入点-->
+            <!--一个切入点有助于使用使用不同通知执行的感兴趣连接点（即方法）-->
+            <!--基于XML架构时，切入点配置如下-->
+            <aop:pointcut id="businessService"
+                          expression="execution(com.src.practise.ooc_spring.ooe_aop.based_on_xml.Student.getName())"/>
+            <!--声明建议-->
+            <!--使用<aop:{ADVICE NAME}>元素声明五个建议中任何一个-->
+            <aop:before pointcut-ref="businessService" method="doRequiredTask"/>
+            <aop:after pointcut-ref="businessService" method="doRequiredTask"/>
+            <aop:after-returning pointcut-ref="businessService" returning="retVal" method="doRequiredTask"/>
+            <aop:after-throwing  pointcut-ref="businessService" throwing="ex" method="doRequiredTask"/>
+            <aop:around pointcut-ref="businessService" method="doRequiredTask"/>
+        </aop:aspect>
+
+    </aop:config>
+
+    <bean id="aBean" class="">
+    </bean>
+
+
+</beans>

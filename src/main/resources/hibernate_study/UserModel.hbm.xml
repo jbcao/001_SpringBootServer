@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+    <!-- 类与表的映射制作在class元素上 -->
+    <!-- name:全路径类名 -->
+    <!-- table:表名 -->
+    <class name="com.src.entity.TUser" table="t_user">
+        <!-- 主键的映射制作在id元素上 -->
+        <!-- name:对象中用于作为主键的属性名 -->
+        <!-- colomn:表中主键字段名 -->
+        <!-- 如果name与column值相同，可以省略column -->
+        <id name="id" column="id">
+            <!-- 将generator元素class属性设置为"assigned" 手动生成,必须给id -->
+            <generator class="identity"  />
+            <!--**要注意Hibernate主键生成策略**-->
+        </id>
+        <!-- 属性与字段的映射制作在property元素上 -->
+        <!-- name:类中的属性名 -->
+        <!-- column:表中的字段名 -->
+        <!-- 如果name与column值相同，可以省略column -->
+        <property name="userName" column="USER_NAME"/>
+        <property name="nickName" column="NICK_NAME"/>
+        <property name="password" column="PASSWORD"/>
+        <property name="age" column="AGE"/>
+        <property name="idCard" column="ID_CARD"/>
+        <property name="phoneNumber" column="PHONE_NUMBER"/>
+        <property name="telephone" column="TELEPHONE"/>
+        <property name="eMail" column="E_MAIL"/>
+        <property name="createTime" column="CREATE_TIME"/>
+    </class>
+</hibernate-mapping>

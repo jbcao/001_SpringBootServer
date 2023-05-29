@@ -1,0 +1,14 @@
+linux与win中MySQL数据库存放位置
+  /var/lib/mysql
+  C:\ProgramData\MySQL\MySQL Server 5.7
+
+MySQL查找字符串
+  show variables like "%char%"
+
+Linux中MySQL配置文件目录
+  etc/my.conf
+
+数据库要配置不区分大小写，否则会报数据库不存在，在配置文件中加上以下内容;
+  lower_case_table_names=1这句（1表示不区分大小写，0区分大小写）
+
+数据库表命名禁止使用中划线“-”

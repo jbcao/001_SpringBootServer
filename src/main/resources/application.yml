@@ -1,0 +1,24 @@
+#默认使用配置
+spring:
+  profiles:
+    active: dev
+
+#公共配置与profiles选择无关
+mybatis:
+  typeAliasesPackage: com.src.entity
+  mapperLocations: classpath:mapper/*.xml
+
+
+---
+#重要
+#"---"是yml文件中必须要有的格式，
+#不可删除，删除会报错，无法阅读yml文件：Caused by: java.lang.IllegalStateException: duplicate key: spring
+#开发配置
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/loan
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver

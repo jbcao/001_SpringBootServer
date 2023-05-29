@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.src.mapper.ExpirationMapper">
+  <resultMap id="BaseResultMap" type="com.src.entity.Expiration">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="EXPIRATION" jdbcType="BIGINT" property="expiration" />
+    <result column="ACCESS_TOKEN" jdbcType="VARCHAR" property="accessToken" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EXPIRATION, ACCESS_TOKEN
+  </sql>
+
+  <insert id="insert" parameterType="com.src.entity.Expiration">
+    insert into expiration (ID, EXPIRATION, ACCESS_TOKEN
+      )
+    values (#{id,jdbcType=BIGINT}, #{expiration,jdbcType=BIGINT}, #{accessToken,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.src.entity.Expiration">
+    update expiration
+    <set>
+      <if test="expiration != null">
+        EXPIRATION = #{expiration,jdbcType=BIGINT},
+      </if>
+      <if test="accessToken != null">
+        ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.src.entity.Expiration">
+    update expiration
+    set EXPIRATION = #{expiration,jdbcType=BIGINT},
+      ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from expiration
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from expiration
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.src.entity.Expiration">
+    insert into expiration
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expiration != null">
+        EXPIRATION,
+      </if>
+      <if test="accessToken != null">
+        ACCESS_TOKEN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="expiration != null">
+        #{expiration,jdbcType=BIGINT},
+      </if>
+      <if test="accessToken != null">
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
